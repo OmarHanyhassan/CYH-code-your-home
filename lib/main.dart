@@ -27,7 +27,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     List<String> codes = List<String>();
 
-    //String coded;
+    String coded;
     return Scaffold(
       appBar: AppBar(),
       body: Flex(
@@ -57,13 +57,16 @@ class _HomeState extends State<Home> {
               onAccept: (String code) {
                 codes.add(code);
                 print(codes);
+                coded = code;
               },
               builder: (context, accepted, rejected) {
                 //print(accepted);
                 return Container(
                   color: Colors.grey,
                   child: Center(
-                    child: Text("code"),
+                    child: accepted.isEmpty
+                        ? Text("drag and drop your prefered instructions")
+                        : Text("$coded is added"),
                   ),
                 );
               },
