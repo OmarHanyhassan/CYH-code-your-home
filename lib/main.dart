@@ -5,7 +5,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+  //  This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -32,42 +32,84 @@ class _HomeState extends State<Home> {
 
     return Scaffold(
       appBar: AppBar(),
-      body: Stack(
+      body: Flex(
+        direction: Axis.horizontal,
         children: [
-          DragBox(Offset(100.0, 200.0), "aurduino code 1", Colors.lime),
-          DragBox(Offset(200.0, 200.0), "aurduino code 2", Colors.red),
-          DragBox(Offset(300.0, 200.0), "aurduino code 3", Colors.orange),
-          Positioned(
-              top: 400,
-              left: 500,
-              child: DragTarget(
-                onAccept: (String titles) {
-                  title = titles;
-                },
-                builder: (context, accepted, rejected) {
-                  print(accepted);
+          Expanded(
+            flex: 2,
+            child: ListView.builder(
+              itemCount: 9,
+              itemBuilder: (context, index) {
+                return Container(
+                  margin: EdgeInsets.only(
+                    top: 10,
+                    right: 15,
+                  ),
+                  child: DragBox(
+                    "aurduino code $index",
+                    Colors.blue,
+                  ),
+                );
+              },
+            ),
+          ),
+          Expanded(
+            flex: 4,
+            child: DragTarget(
+              onAccept: (String titles) {
+                title = titles;
+              },
+              builder: (context, accepted, rejected) {
+                print(accepted);
 
-                  return Container(
-                    width: 200,
-                    height: 200,
-                    color: Colors.grey,
-                    child: Center(
-                      child: Text("${title}"),
-                    ),
-                  );
-                },
-              ))
+                return Container(
+                  color: Colors.grey,
+                  child: Center(
+                    child: Text("$title"),
+                  ),
+                );
+              },
+            ),
+          ),
         ],
       ),
+      //  body: Stack(
+      //    children: [
+      //      DragBox(Offset(100.0, 200.0), "aurduino code 1", Colors.lime),
+      //      DragBox(Offset(200.0, 200.0), "aurduino code 2", Colors.red),
+      //      DragBox(Offset(300.0, 200.0), "aurduino code 3", Colors.orange),
+      //      Positioned(
+      //        bottom: 0,
+      //        left: 50,
+      //        child: DragTarget(
+      //          onAccept: (String titles) {
+      //            title = titles;
+      //          },
+      //          builder: (context, accepted, rejected) {
+      //            print(accepted);
+
+      //            return Container(
+      //              width: 200,
+      //              height: 200,
+      //              color: Colors.grey,
+      //              child: Center(
+      //                child: Text("$title"),
+      //              ),
+      //            );
+      //          },
+      //        ),
+      //      ),
+      //    ],
+      //  ),
     );
   }
 }
 
 class DragBox extends StatefulWidget {
-  final Offset initpos;
+  // final Offset initpos;
   final String code;
   final Color itemColor;
-  DragBox(this.initpos, this.code, this.itemColor);
+  DragBox(this.code, this.itemColor);
 
   @override
   _DragBoxState createState() => _DragBoxState();
@@ -78,36 +120,31 @@ class _DragBoxState extends State<DragBox> {
   @override
   void initState() {
     super.initState();
-    position = widget.initpos;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      left: position.dx,
-      top: position.dy,
-      child: Draggable(
-        data: widget.code,
-        child: Container(
-          color: widget.itemColor,
-          height: 100,
-          width: 100,
-          child: Card(
-            child: Text(
-              widget.code,
-            ),
+    return Draggable(
+      data: widget.code,
+      child: Container(
+        color: widget.itemColor,
+        height: 100,
+        width: 100,
+        child: Card(
+          child: Text(
+            widget.code,
           ),
         ),
-        onDraggableCanceled: (velocity, offset) {
-          setState(() {
-            position = offset;
-          });
-        },
-        feedback: Container(
-          color: widget.itemColor.withOpacity(0.5),
-          width: 100,
-          height: 100,
-        ),
+      ),
+      onDraggableCanceled: (velocity, offset) {
+        setState(() {
+          position = offset;
+        });
+      },
+      feedback: Container(
+        color: widget.itemColor.withOpacity(0.5),
+        width: 100,
+        height: 100,
       ),
     );
   }
