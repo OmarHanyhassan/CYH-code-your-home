@@ -26,13 +26,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     List<String> codes = List<String>();
-    List<Widget> blocks = codes
-        .map(
-          (e) => Card(
-            child: Text(e),
-          ),
-        )
-        .toList();
+    List<Widget> blocks = List<Widget>();
 
     //String coded;
     return Scaffold(
@@ -66,6 +60,18 @@ class _HomeState extends State<Home> {
                   onAccept: (String code) {
                     codes.add(code);
                     print(codes);
+                    setState(
+                      () {
+                        blocks = codes
+                            .map(
+                              (e) => Card(
+                                child: Text(e),
+                              ),
+                            )
+                            .toList();
+                        print(blocks.toSet());
+                      },
+                    );
                   },
                   builder: (context, accepted, rejected) {
                     //print(accepted);
