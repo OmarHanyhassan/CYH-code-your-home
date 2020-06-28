@@ -28,7 +28,7 @@ class _HomeState extends State<Home> {
     List<String> codes = List<String>();
     List<Widget> blocks = List<Widget>();
 
-    //String coded;
+    String coded;
     return Scaffold(
       appBar: AppBar(),
       body: Flex(
