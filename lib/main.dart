@@ -11,10 +11,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
+      theme: ThemeData.dark(),
       home: Home(),
     );
   }
@@ -28,9 +25,9 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    List titles;
-    String title;
+    List<String> codes = List<String>();
 
+    //String coded;
     return Scaffold(
       appBar: AppBar(),
       body: Flex(
@@ -48,7 +45,7 @@ class _HomeState extends State<Home> {
                   ),
                   child: DragBox(
                     "aurduino code $index",
-                    Colors.blue,
+                    Colors.grey[800],
                   ),
                 );
               },
@@ -57,16 +54,16 @@ class _HomeState extends State<Home> {
           Expanded(
             flex: 4,
             child: DragTarget(
-              onAccept: (String titles) {
-                title = titles;
+              onAccept: (String code) {
+                codes.add(code);
+                print(codes);
               },
               builder: (context, accepted, rejected) {
-                print(accepted);
-
+                //print(accepted);
                 return Container(
                   color: Colors.grey,
                   child: Center(
-                    child: Text("$title"),
+                    child: Text("code"),
                   ),
                 );
               },
@@ -143,7 +140,7 @@ class _DragBoxState extends State<DragBox> {
         });
       },
       feedback: Container(
-        color: widget.itemColor.withOpacity(0.5),
+        color: widget.itemColor,
         width: 100,
         height: 100,
       ),
