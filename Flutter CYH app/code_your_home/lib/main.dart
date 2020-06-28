@@ -9,6 +9,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -32,12 +33,24 @@ class _HomeState extends State<Home> {
       appBar: AppBar(),
       body: Stack(
         children: [
-          DragBox(Offset(0.0, 0.0), "box1", Colors.black),
-          DragBox(Offset(100.0, 200.0), "box2", Colors.black),
-          DragBox(Offset(60.0, 30.0), "box3", Colors.black),
+          DragBox(Offset(100.0, 200.0), "box1", Colors.lime),
+          DragBox(Offset(200.0, 200.0), "box2", Colors.red),
+          DragBox(Offset(300.0, 200.0), "box3", Colors.orange),
           Positioned(
-            child: DragTarget(),
-          )
+              top: 400,
+              left: 500,
+              child: DragTarget(
+                onAccept: (Color color) {
+                  caughtColor = color;
+                },
+                builder: (context, accepted, rejected) {
+                  return Container(
+                    width: 200,
+                    height: 200,
+                    color: accepted.isEmpty ? caughtColor : Colors.grey,
+                  );
+                },
+              ))
         ],
       ),
     );
@@ -76,6 +89,11 @@ class _DragBoxState extends State<DragBox> {
           color: widget.itemColor,
           height: 100,
           width: 100,
+          child: Center(
+            child: Text(
+              widget.label,
+            ),
+          ),
         ),
         onDraggableCanceled: (velocity, offset) {
           setState(() {
