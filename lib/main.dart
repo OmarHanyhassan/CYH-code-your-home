@@ -28,7 +28,8 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    String title = "";
+    List titles;
+    String title;
 
     return Scaffold(
       appBar: AppBar(),
@@ -41,12 +42,12 @@ class _HomeState extends State<Home> {
               top: 400,
               left: 500,
               child: DragTarget(
-                onAccept: (String titles) {
-                  title = titles;
+                onAccept: (String title) {
+                  //titles.add(title);
+                  print(titles);
+                  title = title;
                 },
                 builder: (context, accepted, rejected) {
-                  print(accepted);
-
                   return Container(
                     width: 200,
                     height: 200,
