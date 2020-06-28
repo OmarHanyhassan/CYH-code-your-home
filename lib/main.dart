@@ -80,12 +80,15 @@ class _HomeState extends State<Home> {
                     );
                   },
                 ),
-                Column(
-                  children: blocks,
-                ),
               ],
             ),
           ),
+          Expanded(
+            flex: 2,
+            child: ListView(
+              children: blocks,
+            ),
+          )
         ],
       ),
     );
