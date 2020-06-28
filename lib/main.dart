@@ -17,6 +17,9 @@ class MyApp extends StatelessWidget {
   }
 }
 
+List<String> codes = List<String>();
+List<Widget> blocks = List<Widget>();
+
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -25,10 +28,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    List<String> codes = List<String>();
-    List<Widget> blocks = List<Widget>();
-
-    String coded;
     return Scaffold(
       appBar: AppBar(),
       body: Flex(
@@ -58,18 +57,16 @@ class _HomeState extends State<Home> {
               children: [
                 DragTarget(
                   onAccept: (String code) {
-                    codes.add(code);
-                    print(codes);
                     setState(
                       () {
-                        blocks = codes
-                            .map(
-                              (e) => Card(
-                                child: Text(e),
-                              ),
-                            )
-                            .toList();
-                        print(blocks.toSet());
+                        blocks = codes.map(
+                          (e) {
+                            return Card(
+                              child: Text(e),
+                            );
+                          },
+                        ).toList();
+                        print(blocks);
                       },
                     );
                   },
@@ -126,10 +123,13 @@ class _DragBoxState extends State<DragBox> {
           ),
         ),
       ),
-      onDraggableCanceled: (velocity, offset) {
-        setState(() {
-          position = offset;
-        });
+      onDragCompleted: () {
+        setState(
+          () {
+            codes.add(widget.code);
+            print(codes);
+          },
+        );
       },
       feedback: Container(
         color: widget.itemColor,
