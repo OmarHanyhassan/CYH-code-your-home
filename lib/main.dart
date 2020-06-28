@@ -26,6 +26,13 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     List<String> codes = List<String>();
+    List<Widget> blocks = codes
+        .map(
+          (e) => Card(
+            child: Text(e),
+          ),
+        )
+        .toList();
 
     String coded;
     return Scaffold(
@@ -53,55 +60,31 @@ class _HomeState extends State<Home> {
           ),
           Expanded(
             flex: 4,
-            child: DragTarget(
-              onAccept: (String code) {
-                codes.add(code);
-                print(codes);
-                coded = code;
-              },
-              builder: (context, accepted, rejected) {
-                //print(accepted);
-                return Container(
-                  color: Colors.grey,
-                  child: Center(
-                    child: accepted.isEmpty
-                        ? Text("drag and drop your prefered instructions")
-                        : Text("$coded is added"),
-                  ),
-                );
-              },
+            child: Stack(
+              children: [
+                DragTarget(
+                  onAccept: (String code) {
+                    codes.add(code);
+                    print(codes);
+                  },
+                  builder: (context, accepted, rejected) {
+                    //print(accepted);
+                    return Container(
+                      color: Colors.grey,
+                      child: Center(
+                        child: Text("code"),
+                      ),
+                    );
+                  },
+                ),
+                Column(
+                  children: blocks,
+                ),
+              ],
             ),
           ),
         ],
       ),
-      //  body: Stack(
-      //    children: [
-      //      DragBox(Offset(100.0, 200.0), "aurduino code 1", Colors.lime),
-      //      DragBox(Offset(200.0, 200.0), "aurduino code 2", Colors.red),
-      //      DragBox(Offset(300.0, 200.0), "aurduino code 3", Colors.orange),
-      //      Positioned(
-      //        bottom: 0,
-      //        left: 50,
-      //        child: DragTarget(
-      //          onAccept: (String titles) {
-      //            title = titles;
-      //          },
-      //          builder: (context, accepted, rejected) {
-      //            print(accepted);
-
-      //            return Container(
-      //              width: 200,
-      //              height: 200,
-      //              color: Colors.grey,
-      //              child: Center(
-      //                child: Text("$title"),
-      //              ),
-      //            );
-      //          },
-      //        ),
-      //      ),
-      //    ],
-      //  ),
     );
   }
 }
