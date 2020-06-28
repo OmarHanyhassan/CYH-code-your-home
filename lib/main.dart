@@ -27,7 +27,6 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     List<String> codes = List<String>();
     List<Widget> blocks = List<Widget>();
-
     String coded;
     return Scaffold(
       appBar: AppBar(),
