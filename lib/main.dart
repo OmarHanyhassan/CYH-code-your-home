@@ -17,7 +17,18 @@ class MyApp extends StatelessWidget {
   }
 }
 
-List<String> codes = List<String>();
+List<String> blocks_labels = ["open light", "close light", "close fan"];
+
+List<String> aurduino_codes = [
+  "void openLight()",
+  "void closeLight()",
+  "void closeFan()",
+];
+
+List<String> executable_blocks_labels = List<String>();
+
+List<String> executable_codes = List<String>();
+
 List<Block> blocks = List<Block>();
 
 class Home extends StatefulWidget {
@@ -31,7 +42,10 @@ class _HomeState extends State<Home> {
     return Scaffold(
       floatingActionButton: PopupMenuButton(
         color: Colors.black,
-        child: Icon(Icons.more_vert),
+        child: Icon(
+          Icons.more_vert,
+          color: Colors.black,
+        ),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
         itemBuilder: (context) => [
           PopupMenuItem(
@@ -46,6 +60,7 @@ class _HomeState extends State<Home> {
       //   onPressed: () {},
       //   child: Icon(Icons.more_vert),
       // ),
+
       appBar: AppBar(
         title: Text("Code Your Home"),
       ),
@@ -55,7 +70,7 @@ class _HomeState extends State<Home> {
           Expanded(
             flex: 2,
             child: ListView.builder(
-              itemCount: 9,
+              itemCount: aurduino_codes.length,
               itemBuilder: (context, index) {
                 return Container(
                   margin: EdgeInsets.only(
@@ -63,7 +78,8 @@ class _HomeState extends State<Home> {
                     right: 15,
                   ),
                   child: DragBox(
-                    "aurduino code $index",
+                    blocks_labels[index],
+                    aurduino_codes[index],
                     Colors.grey[800],
                   ),
                 );
@@ -76,17 +92,16 @@ class _HomeState extends State<Home> {
               alignment: Alignment.center,
               children: [
                 DragTarget(
-                  onAccept: (String code) {
+                  onAccept: (String aurduino_code) {
                     setState(
                       () {
-                        codes.add(code);
-                        print(codes);
-                        print(blocks);
+                        executable_codes.add(aurduino_code);
+                        print(executable_codes);
+                        //print(blocks);
                       },
                     );
                   },
                   builder: (context, accepted, rejected) {
-                    //print(accepted);
                     return Container(
                       color: Colors.grey,
                       child: Center(
@@ -108,10 +123,10 @@ class _HomeState extends State<Home> {
 }
 
 class DragBox extends StatefulWidget {
-  // final Offset initpos;
-  final String code;
+  final String label;
+  final String aurduino_code;
   final Color itemColor;
-  DragBox(this.code, this.itemColor);
+  DragBox(this.label, this.aurduino_code, this.itemColor);
 
   @override
   _DragBoxState createState() => _DragBoxState();
@@ -127,42 +142,48 @@ class _DragBoxState extends State<DragBox> {
   @override
   Widget build(BuildContext context) {
     return Draggable(
-      data: widget.code,
+      data: widget.aurduino_code,
       child: Container(
         color: widget.itemColor,
         height: 100,
         width: 100,
         child: Card(
           child: Text(
-            widget.code,
+            widget.label,
           ),
         ),
       ),
       onDragCompleted: () {
         setState(() {
-          blocks = codes.map(
-            (e) {
-              return Block(
-                () {
-                  setState(() {
-                    codes.remove(e);
-                    blocks.removeWhere((Block element) => element.data == e);
-                  });
-                  print(codes);
-                  print(blocks);
-                },
-                e,
-              );
+          blocks = executable_codes.map(
+            (block_label) {
+              return Block(block_label, () {});
             },
           ).toList();
         });
+        /*setState(() {
+        blocks = blocks_labels.map(
+          (e) {
+            return Block(
+              e,
+              () {
+                //setState(() {
+                //aurduino_codes.remove(e);
+                //blocks.removeWhere((Block element) => element.label == e);
+                //});
+                print(aurduino_codes);
+              },
+            );
+          },
+        ).toList();
+        //});*/
       },
       feedback: Card(
         color: widget.itemColor.withOpacity(0.5),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
           child: Text(
-            widget.code,
+            widget.label,
             style: TextStyle(fontSize: 15),
           ),
         ),
@@ -172,9 +193,9 @@ class _DragBoxState extends State<DragBox> {
 }
 
 class Block extends StatefulWidget {
+  final String label;
   final Function onPressed;
-  final String data;
-  Block(this.onPressed, this.data);
+  Block(this.label, this.onPressed);
   @override
   _BlockState createState() => _BlockState();
 }
@@ -200,7 +221,7 @@ class _BlockState extends State<Block> {
               onPressed: widget.onPressed,
             ),
             Text(
-              widget.data,
+              widget.label,
               style: TextStyle(fontSize: 15),
             )
           ],
