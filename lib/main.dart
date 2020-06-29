@@ -29,6 +29,23 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: PopupMenuButton(
+        color: Colors.black,
+        child: Icon(Icons.more_vert),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+        itemBuilder: (context) => [
+          PopupMenuItem(
+            child: Text("generate code"),
+          ),
+          PopupMenuItem(
+            child: Text("exceute code"),
+          ),
+        ],
+      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {},
+      //   child: Icon(Icons.more_vert),
+      // ),
       appBar: AppBar(),
       body: Flex(
         direction: Axis.horizontal,
@@ -54,6 +71,7 @@ class _HomeState extends State<Home> {
           Expanded(
             flex: 4,
             child: Stack(
+              alignment: Alignment.center,
               children: [
                 DragTarget(
                   onAccept: (String code) {
