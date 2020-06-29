@@ -59,14 +59,8 @@ class _HomeState extends State<Home> {
                   onAccept: (String code) {
                     setState(
                       () {
-                        blocks = codes.map(
-                          (e) {
-                            return Card(
-                              child: Text(e),
-                            );
-                          },
-                        ).toList();
-                        print(blocks);
+                        codes.add(code);
+                        print(codes);
                       },
                     );
                   },
@@ -80,15 +74,12 @@ class _HomeState extends State<Home> {
                     );
                   },
                 ),
+                Column(
+                  children: blocks,
+                ),
               ],
             ),
           ),
-          Expanded(
-            flex: 2,
-            child: ListView(
-              children: blocks,
-            ),
-          )
         ],
       ),
     );
@@ -127,12 +118,16 @@ class _DragBoxState extends State<DragBox> {
         ),
       ),
       onDragCompleted: () {
-        setState(
-          () {
-            codes.add(widget.code);
-            print(codes);
-          },
-        );
+        setState(() {
+          blocks = codes.map(
+            (e) {
+              return Card(
+                child: Text(e),
+              );
+            },
+          ).toList();
+        });
+        print(blocks);
       },
       feedback: Container(
         color: widget.itemColor,
