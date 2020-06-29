@@ -46,7 +46,9 @@ class _HomeState extends State<Home> {
       //   onPressed: () {},
       //   child: Icon(Icons.more_vert),
       // ),
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text("Code Your Home"),
+      ),
       body: Flex(
         direction: Axis.horizontal,
         children: [
@@ -69,7 +71,7 @@ class _HomeState extends State<Home> {
             ),
           ),
           Expanded(
-            flex: 4,
+            flex: 2,
             child: Stack(
               alignment: Alignment.center,
               children: [
@@ -92,12 +94,18 @@ class _HomeState extends State<Home> {
                     );
                   },
                 ),
-                Column(
-                  children: blocks,
-                ),
+                //Column(
+                //children: blocks,
+                //),
               ],
             ),
           ),
+          Expanded(
+            flex: 2,
+            child: ListView(
+              children: blocks,
+            ),
+          )
         ],
       ),
     );
@@ -140,17 +148,48 @@ class _DragBoxState extends State<DragBox> {
           blocks = codes.map(
             (e) {
               return Card(
-                child: Text(e),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: Icon(
+                          Icons.close,
+                          size: 18,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            codes.remove(e);
+                            //blocks.removeAt(index);
+                          });
+                          print(codes);
+                          ////blocks.remove();
+                        },
+                      ),
+                      Text(
+                        e,
+                        style: TextStyle(fontSize: 15),
+                      )
+                    ],
+                  ),
+                ),
               );
             },
           ).toList();
         });
-        print(blocks);
       },
-      feedback: Container(
-        color: widget.itemColor,
-        width: 100,
-        height: 100,
+      feedback: Card(
+        color: widget.itemColor.withOpacity(0.5),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+          child: Text(
+            widget.code,
+            style: TextStyle(fontSize: 15),
+          ),
+        ),
       ),
     );
   }
