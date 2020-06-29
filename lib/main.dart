@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
 }
 
 List<String> codes = List<String>();
-List<Widget> blocks = List<Widget>();
+List<Block> blocks = List<Block>();
 
 class Home extends StatefulWidget {
   @override
@@ -71,7 +71,7 @@ class _HomeState extends State<Home> {
             ),
           ),
           Expanded(
-            flex: 2,
+            flex: 4,
             child: Stack(
               alignment: Alignment.center,
               children: [
@@ -81,6 +81,7 @@ class _HomeState extends State<Home> {
                       () {
                         codes.add(code);
                         print(codes);
+                        print(blocks);
                       },
                     );
                   },
@@ -94,18 +95,12 @@ class _HomeState extends State<Home> {
                     );
                   },
                 ),
-                //Column(
-                //children: blocks,
-                //),
+                Column(
+                  children: blocks,
+                )
               ],
             ),
           ),
-          Expanded(
-            flex: 2,
-            child: ListView(
-              children: blocks,
-            ),
-          )
         ],
       ),
     );
@@ -147,35 +142,16 @@ class _DragBoxState extends State<DragBox> {
         setState(() {
           blocks = codes.map(
             (e) {
-              return Card(
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: Icon(
-                          Icons.close,
-                          size: 18,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            codes.remove(e);
-                            //blocks.removeAt(index);
-                          });
-                          print(codes);
-                          ////blocks.remove();
-                        },
-                      ),
-                      Text(
-                        e,
-                        style: TextStyle(fontSize: 15),
-                      )
-                    ],
-                  ),
-                ),
+              return Block(
+                () {
+                  setState(() {
+                    codes.remove(e);
+                    blocks.removeWhere((Block element) => element.data == e);
+                  });
+                  print(codes);
+                  print(blocks);
+                },
+                e,
               );
             },
           ).toList();
@@ -189,6 +165,45 @@ class _DragBoxState extends State<DragBox> {
             widget.code,
             style: TextStyle(fontSize: 15),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class Block extends StatefulWidget {
+  final Function onPressed;
+  final String data;
+  Block(this.onPressed, this.data);
+  @override
+  _BlockState createState() => _BlockState();
+}
+
+class _BlockState extends State<Block> {
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: 5,
+          horizontal: 20,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(
+              icon: Icon(
+                Icons.close,
+                size: 18,
+              ),
+              onPressed: widget.onPressed,
+            ),
+            Text(
+              widget.data,
+              style: TextStyle(fontSize: 15),
+            )
+          ],
         ),
       ),
     );
