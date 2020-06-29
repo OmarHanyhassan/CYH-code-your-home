@@ -54,7 +54,7 @@ class _HomeState extends State<Home> {
             ),
           ),
           Expanded(
-            flex: 4,
+            flex: 2,
             child: Stack(
               children: [
                 DragTarget(
@@ -76,12 +76,18 @@ class _HomeState extends State<Home> {
                     );
                   },
                 ),
-                Column(
-                  children: blocks,
-                ),
+                //Column(
+                //children: blocks,
+                //),
               ],
             ),
           ),
+          Expanded(
+            flex: 2,
+            child: ListView(
+              children: blocks,
+            ),
+          )
         ],
       ),
     );
@@ -132,11 +138,19 @@ class _DragBoxState extends State<DragBox> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       IconButton(
-                          icon: Icon(
-                            Icons.close,
-                            size: 18,
-                          ),
-                          onPressed: () {}),
+                        icon: Icon(
+                          Icons.close,
+                          size: 18,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            codes.remove(e);
+                            //blocks.removeAt(index);
+                          });
+                          print(codes);
+                          ////blocks.remove();
+                        },
+                      ),
                       Text(
                         e,
                         style: TextStyle(fontSize: 15),
@@ -148,7 +162,6 @@ class _DragBoxState extends State<DragBox> {
             },
           ).toList();
         });
-        print(blocks);
       },
       feedback: Card(
         color: widget.itemColor.withOpacity(0.5),
