@@ -29,7 +29,9 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text("Code Your Home"),
+      ),
       body: Flex(
         direction: Axis.horizontal,
         children: [
@@ -122,17 +124,41 @@ class _DragBoxState extends State<DragBox> {
           blocks = codes.map(
             (e) {
               return Card(
-                child: Text(e),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                          icon: Icon(
+                            Icons.close,
+                            size: 18,
+                          ),
+                          onPressed: () {}),
+                      Text(
+                        e,
+                        style: TextStyle(fontSize: 15),
+                      )
+                    ],
+                  ),
+                ),
               );
             },
           ).toList();
         });
         print(blocks);
       },
-      feedback: Container(
-        color: widget.itemColor,
-        width: 100,
-        height: 100,
+      feedback: Card(
+        color: widget.itemColor.withOpacity(0.5),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+          child: Text(
+            widget.code,
+            style: TextStyle(fontSize: 15),
+          ),
+        ),
       ),
     );
   }
