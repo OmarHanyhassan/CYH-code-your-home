@@ -147,7 +147,8 @@ class _HomeState extends State<Home> {
                     );
                   },
                 ),
-                Column(
+                Wrap(
+                  direction: Axis.vertical,
                   children: blocks,
                 )
               ],
