@@ -54,20 +54,72 @@ class _HomeState extends State<Home> {
         children: [
           Expanded(
             flex: 2,
-            child: ListView.builder(
-              itemCount: 9,
-              itemBuilder: (context, index) {
-                return Container(
+            child: ListView(
+              children: <Widget>[
+                Container(
                   margin: EdgeInsets.only(
                     top: 10,
                     right: 15,
                   ),
-                  child: DragBox(
-                    "aurduino code $index",
-                    Colors.grey[800],
+                  child: DragBox("Setup pin as 13", "int pin = 13;"),
+                ),
+                Container(
+                  margin: EdgeInsets.only(
+                    top: 10,
+                    right: 15,
                   ),
-                );
-              },
+                  child: DragBox("Make the setup() function", "void setup()"),
+                ),
+                Container(
+                  margin: EdgeInsets.only(
+                    top: 10,
+                    right: 15,
+                  ),
+                  child: DragBox("Setup pin as 13", "int pin = 13;"),
+                ),
+                Container(
+                  margin: EdgeInsets.only(
+                    top: 10,
+                    right: 15,
+                  ),
+                  child: DragBox("Setup pin as 13", "int pin = 13;"),
+                ),
+                Container(
+                  margin: EdgeInsets.only(
+                    top: 10,
+                    right: 15,
+                  ),
+                  child: DragBox("Setup pin as 13", "int pin = 13;"),
+                ),
+                Container(
+                  margin: EdgeInsets.only(
+                    top: 10,
+                    right: 15,
+                  ),
+                  child: DragBox("Setup pin as 13", "int pin = 13;"),
+                ),
+                Container(
+                  margin: EdgeInsets.only(
+                    top: 10,
+                    right: 15,
+                  ),
+                  child: DragBox("Setup pin as 13", "int pin = 13;"),
+                ),
+                Container(
+                  margin: EdgeInsets.only(
+                    top: 10,
+                    right: 15,
+                  ),
+                  child: DragBox("Setup pin as 13", "int pin = 13;"),
+                ),
+                Container(
+                  margin: EdgeInsets.only(
+                    top: 10,
+                    right: 15,
+                  ),
+                  child: DragBox("Setup pin as 13", "int pin = 13;"),
+                ),
+              ],
             ),
           ),
           Expanded(
@@ -110,15 +162,14 @@ class _HomeState extends State<Home> {
 class DragBox extends StatefulWidget {
   // final Offset initpos;
   final String code;
-  final Color itemColor;
-  DragBox(this.code, this.itemColor);
+  final String displayValue;
+  DragBox(this.displayValue, this.code);
 
   @override
   _DragBoxState createState() => _DragBoxState();
 }
 
 class _DragBoxState extends State<DragBox> {
-  Offset position = Offset(0.0, 0.0);
   @override
   void initState() {
     super.initState();
@@ -129,12 +180,12 @@ class _DragBoxState extends State<DragBox> {
     return Draggable(
       data: widget.code,
       child: Container(
-        color: widget.itemColor,
+        color: Colors.grey,
         height: 100,
         width: 100,
         child: Card(
           child: Text(
-            widget.code,
+            widget.displayValue,
           ),
         ),
       ),
@@ -158,7 +209,6 @@ class _DragBoxState extends State<DragBox> {
         });
       },
       feedback: Card(
-        color: widget.itemColor.withOpacity(0.5),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
           child: Text(
